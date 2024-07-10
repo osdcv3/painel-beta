@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel BETA</title>
+</head>
+
+<body>
+    <section class="verqr">
+        <form onsubmit="return verqr()" method="dialog">
+            <label for="senhaVerQR">Senha para ver o QRcode</label>
+            <input type="text" name="senhaVerQR" id="senhaVerQR" placeholder="insira sua senha">
+            <button>Ver QRcode</button>
+        </form>
+    </section>
+    <section class="removerqr">
+        <form onsubmit="return delQr()" method="dialog">
+            <label for="senhaDelQR">Senha para remover o QRcode</label>
+            <input id="senhaDelQR" type="text" name="senhaDelQR" placeholder="insira sua senha">
+            <button>Remover QRcode</button>
+        </form>
+    </section>
+    <style>
+        body {
+            background-color: rgb(100, 100, 100);
+        }
+
+        label {
+            color: antiquewhite;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 20px;
+            margin: 0 auto;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input {
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: green;
+            color: #fff;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: none;
+            height: 30px;
+        }
+    </style>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        function verqr() {
+            const senhaVerQr = document.getElementById("senhaVerQR").value;
+            window.location.href = `https://lbot-whatsapp-production-71b8.up.railway.app/verqr?pass=${senhaVerQr}`
+        }
+        async function delQr() {
+            const senhaDelQr = document.getElementById("senhaDelQR").value;
+            try {
+                const removerqr = await axios.get(`https://lbot-whatsapp-production-71b8.up.railway.app/removeqr?pass=${senhaDelQr}`);
+                alert("QR CODE REMOVIDO COM SUCESSO");
+                window.location.reload()
+            } catch (error) {
+                console.log(error)
+                alert("ERRO AO REMOVER QRCODE")
+            }
+        }
+    </script>
+
+</body>
+
+</html>
